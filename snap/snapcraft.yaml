@@ -1,0 +1,102 @@
+name: digikam
+base: core18
+
+version: '0.6.1'
+adopt-info: digikam
+
+grade: devel
+confinement: devmode
+
+apps:
+  digikam:
+    command: kf5-launch $SNAP/usr/bin/digikam
+    common-id: org.kde.digikam.desktop
+    adapter: full
+    plugs:
+    - camera
+    - desktop
+    - desktop-legacy
+    - home
+    - kde-frameworks-5-plug
+    - removable-media
+    - mount-observe
+    - network
+    - network-bind
+    - opengl
+    - pulseaudio
+    - unity7
+    - x11
+
+plugs:
+  kde-frameworks-5-plug:
+    content: kde-frameworks-5-core18-all
+    interface: content
+    default-provider: kde-frameworks-5-core18
+    target: kf5
+
+parts:
+  digikam:
+    source: https://download.kde.org/stable/digikam/$SNAPCRAFT_PROJECT_VERSION/digikam-$SNAPCRAFT_PROJECT_VERSION.tar.xz
+    source-checksum: sha256/c487be4047d73f179cddff26355b6f3b270f407f73009d14b37f2c12039fffe7
+    plugin: cmake
+    stage-packages:
+    - libexif12
+    - libgphoto2-6
+    - libgphoto2-port12
+    - liblensfun1
+    - liblqr-1-0
+    - libltdl7
+    - libopencv-core3.2
+    - libopencv-imgproc3.2
+    - libopencv-objdetect3.2
+    - libtbb2
+    build-packages:
+    - bison
+    - libexpat1-dev
+    - libfl-dev
+    - doxygen
+    - libtiff-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libmagickcore-dev
+    - ninja-build
+    - libopencv-dev
+    - libsqlite3-dev
+    - libboost-graph-dev
+    - libeigen3-dev
+    - libxslt1-dev
+    - libsane-dev
+    - libglib2.0-dev
+    - g++
+    - liblensfun-dev
+    build-snaps:
+    - kde-frameworks-5-core18-sdk
+    configflags:
+    - -GNinja
+    - -DCMAKE_INSTALL_PREFIX=/usr
+    - -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+    # - -DKDE_INSTALL_QTPLUGINDIR=$QT_PLUGIN_INSTALL_DIR/
+    - -DBUILD_TESTING=ON
+    - -DDIGIKAMSC_CHECKOUT_PO=OFF
+    - -DDIGIKAMSC_CHECKOUT_DOC=OFF
+    - -DDIGIKAMSC_COMPILE_PO=OFF
+    - -DDIGIKAMSC_COMPILE_DOC=ON
+    - -DDIGIKAMSC_COMPILE_DIGIKAM=ON
+    - -DENABLE_KFILEMETADATASUPPORT=OFF
+    - -DENABLE_AKONADICONTACTSUPPORT=OFF
+    - -DENABLE_MYSQLSUPPORT=OFF
+    - -DENABLE_INTERNALMYSQL=OFF
+    - -DENABLE_MEDIAPLAYER=OFF
+    - -DENABLE_LCMS2=ON
+    - -DDIGIKAMSC_USE_PRIVATE_KDEGRAPHICS=OFF
+    - -DENABLE_DBUS=ON
+    - -DENABLE_APPSTYLES=ON
+    - -DENABLE_QWEBENGINE=OFF
+    - -DENABLE_FACESENGINE_DNN=ON
+    - -Wno-dev
+    parse-info:
+    - usr/share/metainfo/org.kde.digikam.appdata.xml
+  kde-frameworks-5-env:
+    source: https://anongit.kde.org/snap-kf5-launcher.git
+    plugin: dump
+
