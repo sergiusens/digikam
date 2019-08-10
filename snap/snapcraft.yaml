@@ -1,7 +1,7 @@
 name: digikam
 base: core18
 
-version: '0.6.1'
+version: '6.2.0'
 adopt-info: digikam
 
 grade: devel
@@ -37,7 +37,7 @@ plugs:
 parts:
   digikam:
     source: https://download.kde.org/stable/digikam/$SNAPCRAFT_PROJECT_VERSION/digikam-$SNAPCRAFT_PROJECT_VERSION.tar.xz
-    source-checksum: sha256/c487be4047d73f179cddff26355b6f3b270f407f73009d14b37f2c12039fffe7
+    source-checksum: "sha256/28762ea0f03a82e3b2473c0682a358c9b83f5013aec827dd5ab6556a1f29baeb"
     plugin: cmake
     stage-packages:
     - libexif12
@@ -52,6 +52,7 @@ parts:
     - libtbb2
     build-packages:
     - bison
+    - ccache
     - libexpat1-dev
     - libfl-dev
     - doxygen
@@ -71,6 +72,8 @@ parts:
     - liblensfun-dev
     build-snaps:
     - kde-frameworks-5-core18-sdk
+    build-environment:
+    - PATH: "/usr/lib/ccache:$PATH"
     configflags:
     - -GNinja
     - -DCMAKE_INSTALL_PREFIX=/usr
